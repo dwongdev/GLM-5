@@ -1,19 +1,34 @@
-# GLM-5.1 & GLM-5
+# GLM-5.2 & GLM-5.1 & GLM-5
 
 <div align="center">
 <img src=resources/logo.svg width="15%"/>
 </div>
 <p align="center">
-    👋 Join our <a href="resources/WECHAT.md" target="_blank">Wechat</a> or <a href="https://discord.gg/zFMhpMRFP" target="_blank">Discord</a> community.
+    👋 Join our <a href="resources/WECHAT.md" target="_blank">Wechat</a> or <a href="https://discord.gg/Hc5z9bx5Xw" target="_blank">Discord</a> community.
     <br>
-    📖 Check out the GLM-5.1 <a href="https://z.ai/blog/glm-5.1" target="_blank">blog</a> and GLM-5 <a href="https://arxiv.org/abs/2602.15763" target="_blank">Technical report</a>.
+    📖 Check out the GLM-5.2 <a href="https://z.ai/blog/glm-5.2" target="_blank">blog</a> and GLM-5 <a href="https://arxiv.org/abs/2602.15763" target="_blank">Technical report</a>.
     <br>
-    📍 Use GLM-5.1 API services on <a href="https://docs.z.ai/guides/llm/glm-5.1">Z.ai API Platform. </a>
+    📍 Use GLM-5.2 API services on <a href="https://docs.z.ai/guides/llm/glm-5.2">Z.ai API Platform. </a>
     <br>
-    🔜 <a href="https://chat.z.ai">GLM-5.1</a> will be available on chat.z.ai in the coming days.
+    🔜 Try GLM-5.2 at <a href="https://z.ai">z.ai</a>.
 </p>
 
 ## Introduction
+
+### GLM-5.2
+
+GLM-5.2, our latest flagship model for long-horizon tasks. It marks a substantial leap in long-horizon task capability over its predecessor GLM-5.1 and, for the first time, delivers that capability on a **solid 1M-token context**. 
+
+GLM-5.2's new capabilities include:
+- **Solid 1M Context:** A solid 1M-token context that stably sustains long-horizon work
+- **Advanced Coding with Flexible Effort**: Stronger coding capabilities with multiple thinking effort levels to balance performance and latency
+- **Improved Architecture**: We propose [IndexShare](https://arxiv.org/abs/2603.12201), which reuses the same indexer across every four sparse attention layers, reducing per-token FLOPs by 2.9× at a 1M context length. We also improve GLM-5.2’s MTP layer for speculative decoding, increasing the acceptance length by up to 20%
+
+![bench_52](resources/bench_52.png)
+
+On standard coding benchmarks, GLM-5.2 is the strongest open-source model, improving on GLM-5.1 by a wide margin: 81.0 vs. 62.0 on Terminal-Bench 2.1 and 62.1 vs. 58.4 on SWE-bench Pro. It also closes much of the gap to the closed-source frontier — on Terminal-Bench 2.1 (81.0) it lands within a few points of Claude Opus 4.8 (85.0) — while staying ahead of Gemini 3.1 Pro.
+
+For more detail, check our [blog](https://z.ai/blog/glm-5.2).
 
 ### GLM-5.1
 
@@ -45,6 +60,8 @@ On [Vending Bench 2](https://andonlabs.com/evals/vending-bench-2), a benchmark t
 
 | Model       | Download Links                                                                                                                      | Model Size | Precision |
 |-------------|-------------------------------------------------------------------------------------------------------------------------------------|------------|-----------|
+| GLM-5.2     | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-5.2)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-5.2)         | 744B-A40B  | BF16      |
+| GLM-5.2-FP8 | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-5.2-FP8)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-5.2-FP8) | 744B-A40B  | FP8       |
 | GLM-5.1     | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-5.1)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-5.1)         | 744B-A40B  | BF16      |
 | GLM-5.1-FP8 | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-5.1-FP8)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-5.1-FP8) | 744B-A40B  | FP8       |
 | GLM-5       | [🤗 Hugging Face](https://huggingface.co/zai-org/GLM-5)<br> [🤖 ModelScope](https://modelscope.cn/models/ZhipuAI/GLM-5)             | 744B-A40B  | BF16      |
@@ -52,72 +69,15 @@ On [Vending Bench 2](https://andonlabs.com/evals/vending-bench-2), a benchmark t
 
 ## Serve GLM-5 Series Locally
 
-### Prepare environment
+GLM-5.2 supports deployment with the following frameworks. Feel free to try them out:
 
-vLLM, SGLang, xLLM and Ktransformers all support local deployment of GLM-5 series model, A simple deployment guide is provided here.
+- [SGLang](https://github.com/sgl-project/sglang) (v0.5.13.post1+) — see [cookbook](https://cookbook.sglang.io/autoregressive/GLM/GLM-5.2)
+- [vLLM](https://github.com/vllm-project/vllm) (v0.23.0+) — see [recipes](https://recipes.vllm.ai/zai-org/GLM-5.2)
+- [Transformers](https://github.com/huggingface/transformers) (v0.5.12+) — see [transformers docs](https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/glm_moe_dsa.md)
+- [KTransformers](https://github.com/kvcache-ai/ktransformers) (v0.5.12+) — see [tutorial](https://github.com/kvcache-ai/ktransformers/blob/main/doc/en/kt-kernel/GLM-5.2-Tutorial.md)
+- For deployment on the `Ascend NPU` platform, inference frameworks such as vLLM-Ascend, xLLM and SGLang are supported — see [here](example/ascend.md).
 
-+ vLLM
-
-    Using Docker as:
-    ```shell
-    docker pull vllm/vllm-openai:v0.20.2-cu129
-    docker pull vllm/vllm-openai:v0.20.2 # For CUDA 13.0
-    ```
-
-+ SGLang
-
-    Using Docker as:
-    ```bash
-    docker pull lmsysorg/sglang:v0.5.11
-    docker pull lmsysorg/sglang:v0.5.11-cu130 # For CUDA 13.0
-    ```
-
-### Deploy
-
-+ vLLM
-
-    ```shell
-    vllm serve zai-org/GLM-5.1-FP8 \
-         --tensor-parallel-size 8 \
-         --gpu-memory-utilization 0.85 \
-         --speculative-config.method mtp \
-         --speculative-config.num_speculative_tokens 3 \
-         --tool-call-parser glm47 \
-         --reasoning-parser glm45 \
-         --enable-auto-tool-choice \
-         --chat-template-content-format=string \
-         --served-model-name glm-5.1-fp8
-    ```
-    Check the [recipes](https://github.com/vllm-project/recipes/blob/main/GLM/GLM5.md) for more details.
->Note: When encounter Tool Call Parse issue with MTP enabled, please turn to vllm main branch to serve GLM-5.1.
-
-+ SGLang
-
-    ```shell
-    sglang serve \
-        --model-path zai-org/GLM-5.1-FP8 \
-        --tp-size 8 \
-        --tool-call-parser glm47  \
-        --reasoning-parser glm45 \
-        --speculative-algorithm EAGLE \
-        --speculative-num-steps 3 \
-        --speculative-eagle-topk 1 \
-        --speculative-num-draft-tokens 4 \
-        --mem-fraction-static 0.85 \
-        --served-model-name glm-5.1-fp8 \
-        --port 8000 \
-        --host 0.0.0.0
-    ```
-
-    Check the [sglang cookbook](https://cookbook.sglang.io/autoregressive/GLM/GLM-5.1) for more details.
-
-+ xLLM
-
-    Please check the deployment guide [here](https://github.com/zai-org/GLM-5/blob/main/example/ascend.md).
-
-+ Ktransformers
-
-    Please check the deployment guide [here](https://github.com/kvcache-ai/ktransformers/blob/main/doc/en/kt-kernel/GLM-5.1-Tutorial.md).
+GLM-5 supports controlling the thinking budget through the `reasoning_effort` parameter, which accepts two levels: `max` and `high`. **`max` is the default** — if `reasoning_effort` is left unset (or set to any value other than `high`), the model runs at `Max`. To use the `High` level, you must explicitly pass `reasoning_effort="high"`. For default scenarios such as benchmark/leaderboard reproduction, keep `Max` (no setting required); only set `reasoning_effort="high"` when you specifically want the `High` level. Thinking can be turned off entirely by setting `enable_thinking=false`.
 
 ## Citation
 
